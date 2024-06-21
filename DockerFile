@@ -1,0 +1,37 @@
+# Dockerfile
+# Folosim o imagine de bază de la Ubuntu
+FROM ubuntu:latest
+
+# Setăm variabilele de mediu necesare
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Actualizăm pachetele și instalăm necesarul pentru CTF
+RUN apt-get update && apt-get install -y \
+    python3 \
+    python3-pip \
+    netcat \
+    socat \
+    gdb \
+    build-essential \
+    binutils \
+    vim \
+    nano \
+    git \
+    sudo \
+    curl \
+    wget
+
+# Adăugăm un utilizator non-root pentru a rula provocările
+RUN useradd -m ctfuser
+
+# Setăm utilizatorul default
+USER ctfuser
+
+# Setăm directorul de lucru
+WORKDIR /home/ctfuser
+
+# Copiem fișierele de provocări în container
+# COPY path_to_challenges /home/ctfuser/challenges
+
+# Comandă default când se pornește containerul
+CMD ["/bin/bash"]
